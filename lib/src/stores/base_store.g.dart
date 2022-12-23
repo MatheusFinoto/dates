@@ -111,19 +111,59 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
+  late final _$newDateControllerAtom =
+      Atom(name: '_BaseStore.newDateController', context: context);
+
+  @override
+  TextEditingController get newDateController {
+    _$newDateControllerAtom.reportRead();
+    return super.newDateController;
+  }
+
+  @override
+  set newDateController(TextEditingController value) {
+    _$newDateControllerAtom.reportWrite(value, super.newDateController, () {
+      super.newDateController = value;
+    });
+  }
+
   late final _$datesAtom = Atom(name: '_BaseStore.dates', context: context);
 
   @override
-  List<String> get dates {
+  ObservableList<String> get dates {
     _$datesAtom.reportRead();
     return super.dates;
   }
 
   @override
-  set dates(List<String> value) {
+  set dates(ObservableList<String> value) {
     _$datesAtom.reportWrite(value, super.dates, () {
       super.dates = value;
     });
+  }
+
+  late final _$randomDateAtom =
+      Atom(name: '_BaseStore.randomDate', context: context);
+
+  @override
+  String get randomDate {
+    _$randomDateAtom.reportRead();
+    return super.randomDate;
+  }
+
+  @override
+  set randomDate(String value) {
+    _$randomDateAtom.reportWrite(value, super.randomDate, () {
+      super.randomDate = value;
+    });
+  }
+
+  late final _$loadLocalAsyncAction =
+      AsyncAction('_BaseStore.loadLocal', context: context);
+
+  @override
+  Future<void> loadLocal() {
+    return _$loadLocalAsyncAction.run(() => super.loadLocal());
   }
 
   late final _$_BaseStoreActionController =
@@ -196,11 +236,33 @@ mixin _$BaseStore on _BaseStore, Store {
   }
 
   @override
-  void removeDate(int index) {
+  void removeDate(String value) {
     final _$actionInfo =
         _$_BaseStoreActionController.startAction(name: '_BaseStore.removeDate');
     try {
-      return super.removeDate(index);
+      return super.removeDate(value);
+    } finally {
+      _$_BaseStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void saveLocal() {
+    final _$actionInfo =
+        _$_BaseStoreActionController.startAction(name: '_BaseStore.saveLocal');
+    try {
+      return super.saveLocal();
+    } finally {
+      _$_BaseStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void generateRandom() {
+    final _$actionInfo = _$_BaseStoreActionController.startAction(
+        name: '_BaseStore.generateRandom');
+    try {
+      return super.generateRandom();
     } finally {
       _$_BaseStoreActionController.endAction(_$actionInfo);
     }
@@ -215,7 +277,9 @@ showContent: ${showContent},
 pageController: ${pageController},
 themeDark: ${themeDark},
 newDate: ${newDate},
+newDateController: ${newDateController},
 dates: ${dates},
+randomDate: ${randomDate},
 isNewDateValid: ${isNewDateValid}
     ''';
   }
