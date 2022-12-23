@@ -32,4 +32,29 @@ abstract class _BaseStore with Store {
 
   @action
   void setTheme(value) => themeDark = value;
+
+
+  @observable
+  String? newDate;
+
+  @action
+  void setNewDate(String value){
+     print(value);
+     newDate = value;
+    
+  }
+
+  @computed
+  bool get isNewDateValid => (newDate != null)? true :false;
+
+  @observable
+  List<String> dates = [];
+
+  @action
+  void addDate(String date)=>dates.add(date);
+
+  @action
+  void removeDate(int index)=> dates.removeAt(index);
+
+
 }
